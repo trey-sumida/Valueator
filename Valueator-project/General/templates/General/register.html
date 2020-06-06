@@ -5,6 +5,9 @@
 {% endblock %}
 {% block content %}
 <div class="hp-div">
+{% if user.is_authenticated %}
+<h1>You are already logged in as {{user.username}}!</h1>
+{% else %}
 {% if form.errors %}
 {% for field in form %}
 {% for error in field.errors %}
@@ -33,4 +36,5 @@
 </form>
 <h4>Already have an account? Click <a href="{% url 'General:login' %}">Here</a> to login.</h4>
 </div>
+{% endif %}
 {% endblock %}
