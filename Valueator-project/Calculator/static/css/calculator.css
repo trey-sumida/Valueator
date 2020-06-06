@@ -1,3 +1,18 @@
 .test {
     color: red;
 }
+
+.page-container {
+    margin-top: 10rem;
+    margin-bottom: 50px;
+    margin-right: 50px;
+    margin-left: 50px;
+}
+
+.lead {
+    text-align: center;
+    font-size: 80px;
+}
+
+
+
