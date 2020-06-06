@@ -1,1 +1,8 @@
-<h1>Hello and welcome to the homepage</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/calculator.css' %}">
+{% endblock %}
+{% block content %}
+<h1 class='test'>Hello and welcome to the home page</h1>
+{% endblock %}
