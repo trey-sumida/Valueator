@@ -5,8 +5,12 @@
 {% endblock %}
 {% block content %}
 <div class="hp-div">
+{% if error %}
+{{error}}
+{% endif %}
 <h1>Login</h1>
 <form method="POST">
+{% csrf_token %}
   <div class="form-group">
     <label for="username">Username</label>
     <input type="username" class="form-control" id="username" name="username">
@@ -17,5 +21,6 @@
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<h4>Don't have an account? Click <a href="{% url 'General:register' %}">Here</a> to register.</h4>
 </div>
 {% endblock %}
