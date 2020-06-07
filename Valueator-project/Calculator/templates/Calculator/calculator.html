@@ -52,8 +52,12 @@
                         <div class='exp-info'>
                             <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
                             <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
-                            {% if hourly != -1 %}
-                                <p>${{hourly}}</p>
+                            {% if hourly > -1 %}
+                                {% if hourly == 0 %}
+                                    <p>You have not been using this subscription!</p>
+                                {% else %}
+                                    <p>${{hourly}}</p>
+                                {% endif %}
                             {% endif %}
                             <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
                                 {% csrf_token %}

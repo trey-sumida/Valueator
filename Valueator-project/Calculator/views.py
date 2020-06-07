@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Income, Expenditure, Topics
+from django import template
+
+register = template.Library()
 
 #Get income and expenditure and display them
 def calculator(request):
@@ -12,7 +15,10 @@ def calculator(request):
         for expense in latest_expenditure_list:
             totalExpenditureCost += expense.expenditure_price
             if expense.topic.topic_text == "Digital Subscription":
-                hourly_rate = expense.expenditure_price/expense.sub_hours
+                if expense.sub_hours > 0:
+                    hourly_rate = expense.expenditure_price/expense.sub_hours
+                else:
+                    hourly_rate = 0
                 hourly_rate_list.append(hourly_rate)
             else:
                 hourly_rate_list.append(-1)
@@ -25,6 +31,7 @@ def calculator(request):
             'totalExpenditureCost': totalExpenditureCost,
             'remainingIncome': remainingIncome
         }
+        print(context)
         return render(request, "Calculator/calculator.html", context)
     except:
         return render(request, "Calculator/calculator.html")
@@ -68,6 +75,10 @@ def deleteExpenditure(request, expenditure_id):
                 raise Http404("You are not authorized to delete this expense")
         else:
             raise Http404("You must login to delete expenses")
+
+@register.filter(is_safe=True)
+def is_numberic(value):
+    return "{}".format(value).isdigit()
 
 
 
