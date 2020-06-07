@@ -64,35 +64,32 @@
         <h2 class='text-center mb-3'>LIST OF EXPENSES</h2>
         <div class='card mb-3'>
         {%if fusion %}
+        <div class='card-body'>
+            <div class="row row-cols-4">
             {% for expenditure, hourly in fusion %}
-                    <div class='card-body' style="width: 100rem">
-                        <div class="row row-cols-4">
-                            <div class='exp-info'>
-                                <!--Prints expenditure, expenditure price, and hourly cost if it is a digital subscription-->
-                                <div class="col-xs-4">
-                                    <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
-                                </div>
-                                <div class="col-xs-4">
-                                    <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
-                                    {% if hourly > -1 %}
-                                        {% if hourly == 0 %}
-                                            <p>You have not been using this subscription!</p>
-                                        {% else %}
-                                            <p>Costs ${{hourly}}/hour</p>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                                <!--Delete an expense from list-->
-                                <div class="col-xs-4">
-                                    <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-outline-danger">Delete</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            {% endfor %}
+            <div class='col-md-4'>
+            <div class="card" style="width: 18rem; height: 14rem">
+                <div class="card-body">
+                  <h5 class="card-title">{{ expenditure.expenditure_text }}</h5>
+                  <p class="card-text">
+                      <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
+                  {% if hourly > -1 %}
+                      {% if hourly == 0 %}
+                          <p>You have not been using this subscription!</p>
+                      {% else %}
+                          <p>Costs ${{hourly}}/hour</p>
+                      {% endif %}
+                  {% endif %}</p>
+                  <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger">Delete</button>
+                </form>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+        </div>
+        </div>
             <!--add a new expenditure-->
             <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
                 {% csrf_token %}
