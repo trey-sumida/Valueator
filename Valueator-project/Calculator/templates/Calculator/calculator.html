@@ -140,16 +140,24 @@
     }
 
     var dataURL = `/calculator/api/data/`
+    var total = 0
     $.ajax({
         method:'GET',
         url: dataURL,
         success:function(response){
-            console.log('RESPONSE:', response)
             for(var i in response){
+                if(i != "income"){
                 state.type.push(i)
                 state.value.push(response[i])
+                total += response[i]
+                }
             }
-            console.log(state)
+            for (i=0; i<state.value.length;i++){
+                total += state.value[i]
+            }
+            state.type.push('savings')
+            savings = response['income'] - total
+            state.value.push(savings)
             buildChart()
         }
     })

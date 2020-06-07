@@ -72,6 +72,7 @@ def deleteExpenditure(request, expenditure_id):
 
 def get_data(request):
     expenditure_list = Expenditure.objects.filter(user = request.user)
+    income = Income.objects.get(user = request.user)
     Auto_mobile = 0
     Bills = 0
     Groceries = 0
@@ -96,6 +97,7 @@ def get_data(request):
         "groceries": Groceries,
         "product": Product_Subscription,
         "digital": Digital_Subscription,
+        "income": income.income_text,
     }
     return JsonResponse(data)
 
