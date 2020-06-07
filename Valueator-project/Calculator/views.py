@@ -18,7 +18,6 @@ def calculator(request):
             'totalExpenditureCost': totalExpenditureCost,
             'remainingIncome': remainingIncome
         }
-        print(context)
         return render(request, "Calculator/calculator.html", context)
     except:
         return render(request, "Calculator/calculator.html")
@@ -38,8 +37,14 @@ def addExpenditure(request):
     if request.method == 'POST':
         user_expenditure = request.POST["expenditure_text"]
         user_expenditure_price = request.POST["expenditure_price"]
-        expenditure_topic = Topics.objects.get(topic_text = request.POST["topic_text"])
-        input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, topic = expenditure_topic, user = request.user)
+        expenditure_list = Expenditure.objects.filter(user = request.user)
+        try:
+            expense = Expenditure.objects.get(expenditure_text = user_expenditure)
+            expense.expenditure_price += int(user_expenditure_price)
+            expense.save()
+        except:
+            expenditure_topic = Topics.objects.get(topic_text = request.POST["topic_text"])
+            input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, topic = expenditure_topic, user = request.user)
         return redirect("Calculator:calculator")
 
 
