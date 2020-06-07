@@ -8,12 +8,19 @@ def calculator(request):
         latest_expenditure_list = Expenditure.objects.filter(user = request.user)
         topics_list = Topics.objects.all()
         totalExpenditureCost = 0
-        for expense_cost in latest_expenditure_list:
-            totalExpenditureCost += expense_cost.expenditure_price
+        hourly_rate_list = []
+        for expense in latest_expenditure_list:
+            totalExpenditureCost += expense.expenditure_price
+            if expense.topic.topic_text == "Digital Subscription":
+                hourly_rate = expense.expenditure_price/expense.sub_hours
+                hourly_rate_list.append(hourly_rate)
+            else:
+                hourly_rate_list.append(-1)
         remainingIncome = latest_income_list.income_text - totalExpenditureCost
+        fusion = zip(latest_expenditure_list, hourly_rate_list)
         context = {
             'latest_income': latest_income_list,
-            'latest_expenditure': latest_expenditure_list,
+            'fusion': fusion,
             'topics_list': topics_list,
             'totalExpenditureCost': totalExpenditureCost,
             'remainingIncome': remainingIncome
@@ -37,6 +44,7 @@ def addExpenditure(request):
     if request.method == 'POST':
         user_expenditure = request.POST["expenditure_text"]
         user_expenditure_price = request.POST["expenditure_price"]
+        user_expenditure_hours = request.POST["sub_hours"]
         expenditure_list = Expenditure.objects.filter(user = request.user)
         exists = False
         for expense in expenditure_list:
@@ -46,7 +54,7 @@ def addExpenditure(request):
                 exists = True
         if not exists:
             expenditure_topic = Topics.objects.get(topic_text = request.POST["topic_text"])
-            input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, topic = expenditure_topic, user = request.user)
+            input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, sub_hours = user_expenditure_hours, topic = expenditure_topic, user = request.user)
         return redirect("Calculator:calculator")
 
 def deleteExpenditure(request, expenditure_id):
