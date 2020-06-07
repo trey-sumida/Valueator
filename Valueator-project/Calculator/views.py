@@ -59,7 +59,10 @@ def addExpenditure(request):
                 exists = True
         if not exists:
             expenditure_topic = Topics.objects.get(topic_text = request.POST["topic_text"])
-            input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, sub_hours = user_expenditure_hours, topic = expenditure_topic, user = request.user)
+            if user_expenditure_hours != '':
+                input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, sub_hours = user_expenditure_hours, topic = expenditure_topic, user = request.user)
+            else:
+                input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, topic = expenditure_topic, user = request.user)
         return redirect("Calculator:calculator")
 
 def deleteExpenditure(request, expenditure_id):
