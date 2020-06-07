@@ -7,6 +7,16 @@ def calculator(request):
         latest_income_list = Income.objects.get(user = request.user)
         latest_expenditure_list = Expenditure.objects.filter(user = request.user)
         context = {'latest_income': latest_income_list, 'latest_expenditure': latest_expenditure_list}
+        totalExpenditureCost = 0
+        for expense_cost in latest_expenditure_list:
+            totalExpenditureCost += expense_cost.expenditure_price
+        remainingIncome = latest_income_list.income_text - totalExpenditureCost
+        context = {
+            'latest_income': latest_income_list,
+            'latest_expenditure': latest_expenditure_list,
+            'totalExpenditureCost': totalExpenditureCost,
+            'remainingIncome': remainingIncome
+        }
         print(context)
         return render(request, "Calculator/calculator.html", context)
     except:
@@ -29,4 +39,6 @@ def addExpenditure(request):
         user_expenditure_price = request.POST["expenditure_price"]
         input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, user = request.user)
         return redirect("Calculator:calculator")
+
+
 

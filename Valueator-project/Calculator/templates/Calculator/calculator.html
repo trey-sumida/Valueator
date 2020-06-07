@@ -11,7 +11,10 @@
         <div class='card mb-3'>
         {%if latest_income %}
                 <div class='card-body'>
-                    <p class='lead'>{{ latest_income.income_text }}</p>
+                    <p class='lead'>${{ latest_income.income_text }}</p>
+                    
+                    <p class='r-income'>Remaining Income: ${{ remainingIncome }}</p>
+                    <p class='exp-total'>Expenses: ${{ totalExpenditureCost }}</p>
                 </div>
                 <form method='POST' action="{% url 'Calculator:addIncome' %}">
                     {% csrf_token %}
