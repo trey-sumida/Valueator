@@ -18,7 +18,6 @@ def calculator(request):
             'totalExpenditureCost': totalExpenditureCost,
             'remainingIncome': remainingIncome
         }
-        print(context)
         return render(request, "Calculator/calculator.html", context)
     except:
         return render(request, "Calculator/calculator.html")

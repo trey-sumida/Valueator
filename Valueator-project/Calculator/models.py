@@ -22,6 +22,7 @@ class Expenditure(models.Model):
     expenditure_price = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(1000000)])
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topics, on_delete=models.CASCADE, null=True)
+    sub_hours = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(744)], blank=True, null=True)
 
     def __str__(self):
         return self.expenditure_text
