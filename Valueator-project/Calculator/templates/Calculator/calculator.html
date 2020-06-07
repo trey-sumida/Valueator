@@ -50,6 +50,10 @@
                         <div class='exp-info'>
                             <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
                             <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
+                            <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </form>
                         </div>
                     </div>
                     
