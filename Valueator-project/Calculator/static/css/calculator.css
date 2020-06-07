@@ -9,6 +9,11 @@
     margin-left: 50px;
 }
 
+.btn-primary {
+    background-color: #6C63FF !important;
+    border: none;
+}
+
 .card {
     padding-bottom: 20px;
     padding-left: 20px;
@@ -24,22 +29,32 @@
     font-size: 80px;
 }
 
-.exp-info {
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 15px;
-
+.exp-total-header { 
+    font-size: 20px;
+    display: inline-block;
 }
 
-.exp-name {
-    display: inline-block;
-    float: left;
-    padding-left: 2rem;
+.totalExp {
+    text-align: right;
 }
 
-.exp-cost {
+.exp-total {
+    font-size: 20px;
+    color: #e44e4e;
     display: inline-block;
-    float: right;
-    padding-right: 2rem;
+}
+
+.remain-in {
+    margin-bottom: 20px;
+}
+
+.r-income-header {
+    font-size: 20px;
+    display: inline;
+}
+.r-income {
+    font-size: 20px;
+    color: #4ee44e;
+    display: inline;
 }
 
