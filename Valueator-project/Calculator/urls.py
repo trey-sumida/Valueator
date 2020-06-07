@@ -6,5 +6,6 @@ urlpatterns = [
     path('', views.calculator, name='calculator'),
     path('add_expenditure/', views.addExpenditure, name='addExpenditure'),
     path('delete_expenditure/<int:expenditure_id>/', views.deleteExpenditure, name='deleteExpenditure'),
-    path('add_income/', views.addIncome, name='addIncome')
+    path('add_income/', views.addIncome, name='addIncome'),
+    path('api/data/', views.get_data, name='get_data')
 ]

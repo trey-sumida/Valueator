@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Income, Expenditure, Topics
-from django import template
-
-register = template.Library()
+from django.http import JsonResponse
 
 #Get income and expenditure and display them
 def calculator(request):
@@ -76,9 +74,33 @@ def deleteExpenditure(request, expenditure_id):
         else:
             raise Http404("You must login to delete expenses")
 
-@register.filter(is_safe=True)
-def is_numberic(value):
-    return "{}".format(value).isdigit()
-
-
-
+def get_data(request):
+    expenditure_list = Expenditure.objects.filter(user = request.user)
+    income = Income.objects.get(user = request.user)
+    Auto_mobile = 0
+    Bills = 0
+    Groceries = 0
+    Product_Subscription = 0
+    Digital_Subscription = 0
+    for expenditure in expenditure_list:
+        if(expenditure.topic.topic_text == 'Auto-mobile'):
+            Auto_mobile += expenditure.expenditure_price
+        elif(expenditure.topic.topic_text == 'Bills'):
+            Bills += expenditure.expenditure_price
+        elif(expenditure.topic.topic_text == 'Groceries'):
+            Groceries += expenditure.expenditure_price
+        elif(expenditure.topic.topic_text == 'Product Subscription'):
+            Product_Subscription += expenditure.expenditure_price
+        elif(expenditure.topic.topic_text == 'Digital Subscription'):
+            Digital_Subscription += expenditure.expenditure_price
+        else:
+            print("Not a valid topic")
+    data = {
+        "auto": Auto_mobile,
+        "bills": Bills,
+        "groceries": Groceries,
+        "product": Product_Subscription,
+        "digital": Digital_Subscription,
+        "income": income.income_text,
+    }
+    return JsonResponse(data)

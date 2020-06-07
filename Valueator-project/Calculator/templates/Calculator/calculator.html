@@ -2,10 +2,12 @@
 {% load static %}
 {% block extrahead %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/calculator.css' %}">
-<script src="{% static 'javascript/expenseTypeChecker.js' %}" type="text/javascript"></script>    
+<script src="{% static 'javascript/expenseTypeChecker.js' %}" type="text/javascript"></script>
+<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 {% endblock %}
-{% block content %}
 
+{% block content %}
 <div class="page-container" id="page-body">
     {% if user.is_authenticated %}
     <div class='income-section'>
@@ -126,9 +128,61 @@
         {% endif %}
         </div>
     </div>
+
+    <div id="myChart"></div>
     {% else %}
     <h1>You must login to be able to use the calculator</h1>
     {% endif %}
 </div>
 
-    {% endblock %}
+<script>
+
+    
+    var state = {
+        'type': [],
+        'value': [],
+    }
+
+    var dataURL = `/calculator/api/data/`
+    var total = 0
+    $.ajax({
+        method:'GET',
+        url: dataURL,
+        success:function(response){
+            for(var i in response){
+                if(i != "income"){
+                state.type.push(i)
+                state.value.push(response[i])
+                total += response[i]
+                }
+            }
+            for (i=0; i<state.value.length;i++){
+                total += state.value[i]
+            }
+            state.type.push('savings')
+            savings = response['income'] - total
+            state.value.push(savings)
+            buildChart()
+        }
+    })
+
+    function buildChart() {
+            var chartData = {
+                "type":"bar",
+                "scale-x": {
+                    "values": state.type
+                },
+                "series": [
+                    {
+                        "values": state.value
+                    }
+                ]
+            }
+
+            zingchart.render({
+            id: 'myChart',
+            data: chartData,
+        });
+    }
+</script>
+{% endblock %}
