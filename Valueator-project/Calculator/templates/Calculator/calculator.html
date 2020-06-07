@@ -11,24 +11,39 @@
     <div class='income-section'>
         <!--Finds income of current user-->
         <h2 class='text-center mb-3'>MONTHLY INCOME</h2>
-        <div class='card mb-3'>
+        <div class='card'>
         {%if latest_income %}
                 <div class='card-body'>
                     <p class='lead'>${{ latest_income.income_text }}</p>
-                    
-                    <p class='r-income'>Remaining Income: ${{ remainingIncome }}</p>
-                    <p class='exp-total'>Expenses: ${{ totalExpenditureCost }}</p>
-                </div>
-                <form method='POST' action="{% url 'Calculator:addIncome' %}">
-                    {% csrf_token %}
-                    <div class='form-group'>
-                        <label for='add-income'>Update Monthly Income</label>
-                        <input class='form-control' id='add-income' name='income_text'>
+                    <!--Prints the remaining income and total amount of expenses-->
+                    <div class="row">
+                        <div class=col>
+                            <p class="r-income-header">Remaining Income: </p> 
+                            <p class='r-income'>${{ remainingIncome }}</p>
+                        </div>
+                        <div class="col">
+                            <div class="totalExp">
+                                <p class="exp-total-header">Expenses: </p>
+                                <p class='exp-total'>${{ totalExpenditureCost }}</p>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-        
-                </form>
+                </div>
+                <!--Update Income option for users-->
+                <div class="row">
+                    <div class="col">
+                        <form method='POST' action="{% url 'Calculator:addIncome' %}">
+                            {% csrf_token %}
+                            <div class='form-group'>
+                                <label for='add-income'>Update Monthly Income</label>
+                                <input class='form-control' id='add-income' name='income_text'>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
         {% else %}
+        <!--If there is no income recorded, allow user to add monthly income-->
             <p>No income available</p>
             <form method='POST' action="{% url 'Calculator:addIncome' %}">
                 {% csrf_token %}
@@ -48,34 +63,48 @@
         <div class='card mb-3'>
         {%if fusion %}
             {% for expenditure, hourly in fusion %}
-                    <div class='card-body'>
-                        <div class='exp-info'>
-                            <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
-                            <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
-                            {% if hourly > -1 %}
-                                {% if hourly == 0 %}
-                                    <p>You have not been using this subscription!</p>
-                                {% else %}
-                                    <p>${{hourly}}</p>
-                                {% endif %}
-                            {% endif %}
-                            <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-danger">Delete</button>
-                            </form>
+                    <div class='card-body' style="width: 100rem">
+                        <div class="row row-cols-4">
+                            <div class='exp-info'>
+                                <!--Prints expenditure, expenditure price, and hourly cost if it is a digital subscription-->
+                                <div class="col-xs-4">
+                                    <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
+                                </div>
+                                <div class="col-xs-4">
+                                    <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
+                                    {% if hourly > -1 %}
+                                        {% if hourly == 0 %}
+                                            <p>You have not been using this subscription!</p>
+                                        {% else %}
+                                            <p>Costs ${{hourly}}/hour</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <!--Delete an expense from list-->
+                                <div class="col-xs-4">
+                                    <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
             {% endfor %}
+            <!--add a new expenditure-->
             <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
                 {% csrf_token %}
+                <!--expenditure name-->
                 <div class='form-group'>
                     <label for='add-expenditure'>Add New Expenditure</label>
                     <input class='form-control' id='add-expenditure' name='expenditure_text'>
                 </div>
+                <!--expenditure price-->
                 <div class='form-group'>
                     <label for='add-expenditure-price'>Cost of Expenditure</label>
                     <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
                 </div>
+                <!--expenditure type-->
                 <div class="form-group col-md-4">
                     <div id="exp-type">
                         <label for="topic_text">Type of Expense</label>
@@ -87,7 +116,7 @@
                         </select>
                     </div>
                 </div>
-
+                <!--Input field for hours used if expenditure is a Digital Subscription-->
                 <div class='form-group col-md-4' id='add-hours'>
                     <label for='add-hours'>How many hours do you spend using this service?</label>
                     <input class='form-control' id='add-hours' name='sub_hours'>
@@ -95,17 +124,22 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         {% else %}
+        <!--allows users to add expenditures if no expenditures are recorded-->
             <p>No expenditure(s) available</p>
             <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
                 {% csrf_token %}
+                <!--add a new expenditure-->
+                <!--expenditure name-->
                 <div class='form-group'>
                     <label for='add-expenditure'>Add New Expenditure</label>
                     <input class='form-control' id='add-expenditure' name='expenditure_text'>
                 </div>
+                <!--expenditure price-->
                 <div class='form-group'>
                     <label for='add-expenditure-price'>Cost of Expenditure</label>
                     <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
                 </div>
+                <!--expenditure type-->
                 <div class="form-group col-md-4">
                     <div id="exp-type">
                     <label for="topic_text">Type of Expense</label>
@@ -117,6 +151,7 @@
                     </select>
                     </div>
                 </div>
+                 <!--Input field for hours used if expenditure is a Digital Subscription-->
                 <div class='form-group col-md-4' id='add-hours'>
                     <label for='add-hours'>How many hours do you spend using this service?</label>
                     <input class='form-control' id='add-hours' name='sub_hours'>
@@ -127,6 +162,7 @@
         </div>
     </div>
     {% else %}
+    <!--Restricts unwanted users (not logged in)-->
     <h1>You must login to be able to use the calculator</h1>
     {% endif %}
 </div>
