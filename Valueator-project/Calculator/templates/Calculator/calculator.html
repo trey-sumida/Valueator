@@ -11,7 +11,10 @@
         <div class='card mb-3'>
         {%if latest_income %}
                 <div class='card-body'>
-                    <p class='lead'>{{ latest_income.income_text }}</p>
+                    <p class='lead'>${{ latest_income.income_text }}</p>
+                    
+                    <p class='r-income'>Remaining Income: ${{ remainingIncome }}</p>
+                    <p class='exp-total'>Expenses: ${{ totalExpenditureCost }}</p>
                 </div>
                 <form method='POST' action="{% url 'Calculator:addIncome' %}">
                     {% csrf_token %}
@@ -84,6 +87,7 @@
                     <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
                 </div>
                 <div class="form-group col-md-4">
+                    <div id="exp-type">
                     <label for="topic_text">Type of Expense</label>
                     <select id="topic_text" class="form-control" name="topic_text">
                       <option selected>Choose...</option>
@@ -91,7 +95,8 @@
                       <option>{{topic.topic_text}}</option>
                       {% endfor %}
                     </select>
-                  </div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         {% endif %}
