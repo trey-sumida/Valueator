@@ -17,7 +17,9 @@
 {% endfor %}
 {% endfor %}
 {% endif %}
+<div class='center'>
 <h1>Register</h1>
+</div>
 <form method="POST">
 {% csrf_token %}
   <div class="form-group">
@@ -32,9 +34,13 @@
     <label for="password2">Confirm Password</label>
     <input type="password" class="form-control" id="password2" name="password2">
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<div class='center'>
+  <button type="submit" class="btn btn-primary">Register</button>
+  </form>
 </form>
+<div class='center' id='link'>
 <h4>Already have an account? Click <a href="{% url 'General:login' %}">Here</a> to login.</h4>
+</div>
 </div>
 {% endif %}
 {% endblock %}
