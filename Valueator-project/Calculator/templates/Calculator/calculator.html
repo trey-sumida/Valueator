@@ -45,19 +45,21 @@
         <!--Displays a list of expenses from the current user-->
         <h2 class='text-center mb-3'>List of Expenses</h2>
         <div class='card mb-3'>
-        {%if latest_expenditure %}
-            {% for expenditure in latest_expenditure %}
+        {%if fusion %}
+            {% for expenditure, hourly in fusion %}
                     <div class='card-body'>
                         <div class='exp-info'>
                             <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
                             <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
+                            {% if hourly != -1 %}
+                                <p>{{hourly}}</p>
+                            {% endif %}
                             <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-primary">Delete</button>
                             </form>
                         </div>
                     </div>
-                    
             {% endfor %}
             <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
                 {% csrf_token %}
