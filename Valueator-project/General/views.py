@@ -4,7 +4,10 @@ from django.contrib.auth.models import User
 from .forms import RegisterForm
 
 def homepage(request):
-    return render(request, "General/homepage.html")
+    if request.user.is_authenticated:
+        return redirect("Calculator:calculator")
+    else:
+        return render(request, "General/homepage.html")
 
 def login(request):
     if request.method == 'POST':
@@ -13,7 +16,7 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect("General:homepage")
+            return redirect("Calculator:calculator")
         else:
             return render(request, "General/login.html", {'error': "Invalid Login"})
     else:
