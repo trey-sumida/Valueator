@@ -38,14 +38,28 @@ def addExpenditure(request):
         user_expenditure = request.POST["expenditure_text"]
         user_expenditure_price = request.POST["expenditure_price"]
         expenditure_list = Expenditure.objects.filter(user = request.user)
-        try:
-            expense = Expenditure.objects.get(expenditure_text = user_expenditure)
-            expense.expenditure_price += int(user_expenditure_price)
-            expense.save()
-        except:
+        exists = False
+        for expense in expenditure_list:
+            if expense.expenditure_text == user_expenditure:
+                expense.expenditure_price += int(user_expenditure_price)
+                expense.save()
+                exists = True
+        if not exists:
             expenditure_topic = Topics.objects.get(topic_text = request.POST["topic_text"])
             input_name = Expenditure.objects.create(expenditure_text = user_expenditure, expenditure_price = user_expenditure_price, topic = expenditure_topic, user = request.user)
         return redirect("Calculator:calculator")
+
+def deleteExpenditure(request, expenditure_id):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            expenditure = Expenditure.objects.get(pk=expenditure_id)
+            if expenditure.user == request.user:
+                expenditure.delete()
+                return redirect("Calculator:calculator")
+            else:
+                raise Http404("You are not authorized to delete this expense")
+        else:
+            raise Http404("You must login to delete expenses")
 
 
 
