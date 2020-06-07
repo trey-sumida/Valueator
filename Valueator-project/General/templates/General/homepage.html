@@ -1,10 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extrahead %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
 {% endblock %}
 {% block content %}
-<div class="hp-div">
-<h1>Hello and welcome to the home page</h1>
+<div class="container">
+    <div class="panel-1">
+        <div class="row">
+            <div class="col">
+                <h3 class="welcome">Welcome to Valueator</h3>
+                <h1 class ="title">Control your money and save</h1>
+                <h4 class ="wel-desc">Subscriptions pile up without you knowing. 
+                    Manage your subscriptions and take control of your financial life today.</h4>
+            </div>
+            <div class="col">
+                <div class="image">
+                {% load static %}<img src="{% static 'images/Panel1Img.png' %}"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-row">
+            <div class="row">
+                <button type="button" class="btn btn-primary">Sign Up</button>
+            </div>
+        </div>
+</div>
+
+    <div class="panel-2">
+        <div class="row" id="panel-2">
+            <h1 class="title2">What is Valueator?</h1>
+        </div>
+        <div class='row' id="panel-2-2">
+            <div class='col' id="col-1">
+                {% load static %}<img src="{% static 'images/Panel-2-1.png' %}"/>
+                <h3 class="desc-header">Clear breakdowns of your income & expenses, 
+                    allowing you to spend your money in the right places. </h3>
+            </div>
+            <div class='col' id="col-1">
+                {% load static %}<img src="{% static 'images/Panel-2-3.png' %}"/>
+                <h3 class="desc-header">Our hourly subscription analyzer allows you to 
+                    evaluate the true cost. Discover hidden subscriptions and save money. 
+                    Is it really worth keeping Chegg during the summer?</h3>
+            </div>
+            <div class='col' id="col-1">
+                {% load static %}<img src="{% static 'images/Panel-2-2.png' %}"/>
+                <h3 class="desc-header">Words can be dreadful to look at, that's 
+                why we made a visual graph for you to look at your finances at a glance!</h3>
+            </div>
+        </div>
+
+        <div class="button-row-2">
+            <div class="row">
+                <div class="col text-center">
+                    <button type="button" class="btn btn-primary">Sign Up Today!</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
