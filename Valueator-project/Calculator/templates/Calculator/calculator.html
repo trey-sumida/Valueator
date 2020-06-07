@@ -5,73 +5,79 @@
 {% endblock %}
 {% block content %}
 <div class="page-container">
-    <!--Finds income of current user-->
-    <h2 class='text-center mb-3'>MONTHLY INCOME</h2>
-    <div class='card mb-3'>
-    {%if latest_income %}
-            <div class='card-body'>
-                <p class='lead'>{{ latest_income.income_text }}</p>
-            </div>
+    <div class='income-section'>
+        <!--Finds income of current user-->
+        <h2 class='text-center mb-3'>MONTHLY INCOME</h2>
+        <div class='card mb-3'>
+        {%if latest_income %}
+                <div class='card-body'>
+                    <p class='lead'>{{ latest_income.income_text }}</p>
+                </div>
+                <form method='POST' action="{% url 'Calculator:addIncome' %}">
+                    {% csrf_token %}
+                    <div class='form-group'>
+                        <label for='add-income'>Update Monthly Income</label>
+                        <input class='form-control' id='add-income' name='income_text'>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+        
+                </form>
+        {% else %}
+            <p>No income available</p>
             <form method='POST' action="{% url 'Calculator:addIncome' %}">
                 {% csrf_token %}
                 <div class='form-group'>
-                    <label for='add-income'>Update Monthly Income</label>
+                    <label for='add-income'>Add Monthly Income</label>
                     <input class='form-control' id='add-income' name='income_text'>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-    
-            </form>
-    {% else %}
-        <p>No income available</p>
-        <form method='POST' action="{% url 'Calculator:addIncome' %}">
-            {% csrf_token %}
-            <div class='form-group'>
-                <label for='add-income'>Add Monthly Income</label>
-                <input class='form-control' id='add-income' name='income_text'>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
 
-        </form>
-    {% endif %}
+            </form>
+        {% endif %}
+        </div>
     </div>
-    <!--Displays a list of expenses from the current user-->
-    <h2 class='text-center mb-3'>List of Expenses</h2>
-    <div class='card mb-3'>
-    {%if latest_expenditure %}
-        {% for expenditure in latest_expenditure %}
-                <div class='card-body'>
-                    <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
-                    <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
+    <div class='expenditure-list'>
+        <!--Displays a list of expenses from the current user-->
+        <h2 class='text-center mb-3'>List of Expenses</h2>
+        <div class='card mb-3'>
+        {%if latest_expenditure %}
+            {% for expenditure in latest_expenditure %}
+                    <div class='card-body'>
+                        <div class='exp-info'>
+                            <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
+                            <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
+                        </div>
+                    </div>
+                    
+            {% endfor %}
+            <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
+                {% csrf_token %}
+                <div class='form-group'>
+                    <label for='add-expenditure'>Add New Expenditure</label>
+                    <input class='form-control' id='add-expenditure' name='expenditure_text'>
                 </div>
-                
-        {% endfor %}
-        <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
-            {% csrf_token %}
-            <div class='form-group'>
-                <label for='add-expenditure'>Add New Expenditure</label>
-                <input class='form-control' id='add-expenditure' name='expenditure_text'>
-            </div>
-            <div class='form-group'>
-                <label for='add-expenditure-price'>Cost of Expenditure</label>
-                <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    {% else %}
-        <p>No expenditure(s) available</p>
-        <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
-            {% csrf_token %}
-            <div class='form-group'>
-                <label for='add-expenditure'>Add New Expenditure</label>
-                <input class='form-control' id='add-expenditure' name='expenditure_text'>
-            </div>
-            <div class='form-group'>
-                <label for='add-expenditure-price'>Cost of Expenditure</label>
-                <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    {% endif %}
+                <div class='form-group'>
+                    <label for='add-expenditure-price'>Cost of Expenditure</label>
+                    <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        {% else %}
+            <p>No expenditure(s) available</p>
+            <form method='POST' action="{% url 'Calculator:addExpenditure' %}">
+                {% csrf_token %}
+                <div class='form-group'>
+                    <label for='add-expenditure'>Add New Expenditure</label>
+                    <input class='form-control' id='add-expenditure' name='expenditure_text'>
+                </div>
+                <div class='form-group'>
+                    <label for='add-expenditure-price'>Cost of Expenditure</label>
+                    <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        {% endif %}
+        </div>
     </div>
+    {% endblock %}
 </div>
-{% endblock %}
