@@ -22,7 +22,9 @@
 
         <div class="button-row">
             <div class="row">
-                <button type="button" class="btn btn-primary">Sign Up</button>
+                <a href="{% url 'General:register' %}">
+                        <button type="button" class="btn btn-primary">Sign Up</button>
+                </a>
             </div>
         </div>
 </div>
@@ -53,7 +55,9 @@
         <div class="button-row-2">
             <div class="row">
                 <div class="col text-center">
-                    <button type="button" class="btn btn-primary">Sign Up Today!</button>
+                    <a href="{% url 'General:register' %}">
+                        <button type="button" class="btn btn-primary">Sign Up Today!</button>
+                    </a>
                 </div>
             </div>
         </div>
