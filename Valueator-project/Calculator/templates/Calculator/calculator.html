@@ -7,6 +7,7 @@
 {% block content %}
 
 <div class="page-container" id="page-body">
+    {% if user.is_authenticated %}
     <div class='income-section'>
         <!--Finds income of current user-->
         <h2 class='text-center mb-3'>MONTHLY INCOME</h2>
@@ -52,11 +53,11 @@
                             <p class='exp-name'>{{ expenditure.expenditure_text }}</p>
                             <p class='exp-cost'>${{ expenditure.expenditure_price }}</p>
                             {% if hourly != -1 %}
-                                <p>{{hourly}}</p>
+                                <p>${{hourly}}</p>
                             {% endif %}
                             <form method='POST' action="{% url 'Calculator:deleteExpenditure' expenditure.id %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Delete</button>
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -84,7 +85,7 @@
                 </div>
 
                 <div class='form-group col-md-4' id='add-hours'>
-                    <label for='add-hours'>Hours used</label>
+                    <label for='add-hours'>How many hours do you spend using this service?</label>
                     <input class='form-control' id='add-hours' name='sub_hours'>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -113,7 +114,7 @@
                     </div>
                 </div>
                 <div class='form-group col-md-4' id='add-hours'>
-                    <label for='add-hours'>Hours used</label>
+                    <label for='add-hours'>How many hours do you spend using this service?</label>
                     <input class='form-control' id='add-hours' name='sub_hours'>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -121,5 +122,9 @@
         {% endif %}
         </div>
     </div>
-    {% endblock %}
+    {% else %}
+    <h1>You must login to be able to use the calculator</h1>
+    {% endif %}
 </div>
+
+    {% endblock %}
