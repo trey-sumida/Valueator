@@ -60,6 +60,15 @@
                     <label for='add-expenditure-price'>Cost of Expenditure</label>
                     <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="topic_text">Type of Expense</label>
+                    <select id="topic_text" class="form-control" name="topic_text">
+                      <option selected>Choose...</option>
+                      {% for topic in topics_list %}
+                      <option>{{topic.topic_text}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         {% else %}
@@ -74,6 +83,15 @@
                     <label for='add-expenditure-price'>Cost of Expenditure</label>
                     <input class='form-control' id='add-expenditure-price' name='expenditure_price'>
                 </div>
+                <div class="form-group col-md-4">
+                    <label for="topic_text">Type of Expense</label>
+                    <select id="topic_text" class="form-control" name="topic_text">
+                      <option selected>Choose...</option>
+                      {% for topic in topics_list %}
+                      <option>{{topic.topic_text}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         {% endif %}
